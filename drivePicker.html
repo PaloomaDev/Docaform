@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- CSS package for editor add-ons: https://developers.google.com/apps-script/add-ons/guides/css !-->
+  <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons.css">
+   
+  <script type="text/javascript">
+    var DIALOG_DIMENSIONS = {
+    width: 1051,
+    height: 650
+  };
+  var pickerApiLoaded = false;
+ 
+  /**
+   * Loads the Google Picker API.
+   */
+
+   function onApiLoad() {
+    gapi.load('picker', {
+      'callback': function() {
+      pickerApiLoaded = true;
+      }
+    });
+  } 
+
+
+  /**
+  * Gets the user's OAuth 2.0 access token from the server-side script so that
+  * it can be passed to Picker. This technique keeps Picker from needing to
+  * show its own authorization dialog, but is only possible if the OAuth scope
+  * that Picker needs is available in Apps Script. Otherwise, your Picker code
+  * will need to declare its own OAuth scopes.
+  */
+  function getOAuthToken() {
+    google.script.run
+      .withSuccessHandler(createPicker)
+      .withFailureHandler(showError)
+      .getOAuthTokenInit(); 
+  }
+ 
+  /**
+   * Creates a Picker. 
+   * This function uses advanced options.
+   *
+   * @param {string} token An OAuth 2.0 access token that lets Picker access the file type specified in the addView call.
+   */
+  function createPicker(config) {
+    document.getElementById('result').innerHTML = '';
+    console.log(pickerApiLoaded)
+    console.log( config.oauthToken)
+    if (pickerApiLoaded && config.oauthToken) {
+      var viewMyDrive = new google.picker.DocsView() //"My Drive"
+        .setIncludeFolders(true)
+        .setOwnedByMe(true)
+      var viewSharedDrive = new google.picker.DocsView() //"Shared drives"
+        .setEnableDrives(true) // if true: show shared drives
+        .setIncludeFolders(true)
+        .setOwnedByMe(true)
+      var viewDocuments = new google.picker.View(google.picker.ViewId.DOCUMENTS); //"Documents"
+      var picker = new google.picker.PickerBuilder().addView(viewDocuments)
+        .setCallback(pickerCallback)
+        .setDeveloperKey(config.developerKey)
+        .setOAuthToken(config.oauthToken) // Sets an OAuth token to use for authenticating the current user.
+        .setOrigin(google.script.host.origin) // Sets the origin of picker dialog. Property origin provides the host domain, so scripts can set their origin correctly.
+        .setSelectableMimeTypes("application/vnd.google-apps.document")	// Set the list of selectable MIME types. Use commas to separate MIME types if more than one is required. https://developers.google.com/drive/api/v3/mime-types
+        .setSize(DIALOG_DIMENSIONS.width -2, DIALOG_DIMENSIONS.height -2) // Instruct Picker to fill the dialog, minus 2 pixels for the border. The dialog is auto-centered. It has a minimum size of (566,350) and a maximum size of (1051,650).
+        .setTitle("Choose a Google Docs for a template")
+        .setLocale('en')
+        .build();
+    picker.setVisible(true);
+    } else {
+      showError('Unable to load the file picker.');
+    }
+  }
+ 
+  /**
+   * A callback function that extracts the chosen document's metadata from the
+   * response object. For details on the response object, see
+   * https://developers.google.com/picker/docs/reference#response
+   *
+   * @param {object} data The response object.
+   */
+  function pickerCallback(data) {
+    // https://developers.google.com/picker/docs/reference#callback-types
+    var action = data[google.picker.Response.ACTION];
+    console.log(data);
+    if (action == google.picker.Action.PICKED) { // Action.PICKED	User has chosen at least one item.
+    console.log('this is my log : '+data[google.picker.Response.DOCUMENTS].length)
+      var doc = data[google.picker.Response.DOCUMENTS][0];
+      var id = doc[google.picker.Document.ID]; 
+     google.script.run.updateGoogleDocsTemplateId(id)
+     google.script.host.close();
+    } 
+    else if (action == google.picker.Action.CANCEL) { // Action.CANCEL	User canceled the picker dialog.
+      google.script.host.close();
+    }
+  } 
+  
+  /**
+   * Displays an error message within the #result element.
+   *
+   * @param {string} message The error message to display.
+   */
+  function showError(message) {
+    document.getElementById('result').innerHTML = 'Error: ' + message;
+  }
+  </script>
+</head>
+
+<body>
+  <div>
+    <div style="text-align: center">
+      <img alt="logo_drive" src="https://fonts.gstatic.com/s/i/productlogos/drive_2020q4/v8/web-64dp/logo_drive_2020q4_color_2x_web_64dp.png" />
+    </div>
+    <div style="font-size: 40px; text-align: center;padding: 5px">Google Drive Picker<div style="padding: 10px">
+        <button class="action" onclick="getOAuthToken()">Select a Google Docs template</button>
+      </div>
+    </div>
+    <p id='result'></p>
+     <script src="https://apis.google.com/js/api.js"></script>
+    <!-- Load the Google API Loader script. -->
+    <script src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+  </div>
+</body>
+</html>
