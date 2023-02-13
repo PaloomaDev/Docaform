@@ -55,6 +55,7 @@ The is divided in 3 parts :
   - Edit the new Google Sheets with text manipulation functions
 - instruction.html contains instructions to display
 - drivePicker.html contains the drive picker code with javascript functions calling code.gs functions
+- authEmail.html contains the email to send if the form trigger requires authorization that has not been granted yet; if so, warn the user via this email. This check is required when using triggers with add-ons to maintain functional triggers.
 # What’s next ? 
 
 Apart from the UX that could still be improved, we thought of 3 mains improvements that could be done : 
