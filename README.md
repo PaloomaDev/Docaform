@@ -44,7 +44,11 @@ After that, the script can get answers, copy the Google Docs template and edit t
 
 Here is a diagram to better understand : 
 
+![Docaform - notes](https://user-images.githubusercontent.com/122447246/218594762-71c19496-0a5d-40d3-9ba2-198bf4db36c1.png)
+
 Don’t forget to configure your Google Workspace marketplace SDK API with the script ID and version & as a Google Form Addon(i.e. editor addon)
+
+![docaformGCPConfig](https://user-images.githubusercontent.com/122447246/218594797-9c080c72-7d77-4ad8-b2b2-3555b3358bc2.PNG)
 
 # Code
 The is divided in 3 parts : 
