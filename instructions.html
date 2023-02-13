@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+  <style>
+    body {
+      font-family: 'Poppins';
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <body style="font">
+
+    <h2><strong>1-Google Forms configuration</strong></h2>
+    <p>Add questions in the Google Forms.&nbsp;</p>
+    <p><strong>Warning :</strong> question types available with FormsDocGo are&nbsp;</p>
+    <ul>
+      <li>Short Answer</li>
+      <li>Paragraph</li>
+      <li>Multiple choice</li>
+      <li>Dropdown</li>
+    </ul>
+    <p>More information here <a title="Choose a question for your form"
+        href="https://support.google.com/docs/answer/7322334?hl=en&amp;ref_topic=9055304#zippy=" target="_blank">Choose
+        a question for your form</a></p>
+    <h2><strong>2-Select a Google Docs as template</strong></h2>
+    <p>One the Google Forms questions are added, open the Addon menu and click on
+      <span style="text-decoration: underline;"><em>Google Docs template</em></span>.&nbsp;
+    </p>
+    <p>You will be able to select a Google Docs as a template only for this Google Forms.</p>
+    <p>When an user will answer the forms, FormsDocGo will copy this template and add the user's answers in the template
+      copy depeding on how configured the template.</p>
+    <h2><strong>3-</strong><strong>Google Docs template configuration</strong></h2>
+    <p>To configure the Google Docs template :&nbsp;</p>
+    <ol>
+      <li>Open the Addon Menu and click on <em><span style="text-decoration: underline;">Matching Table</span></em> .
+        This table will give you the label for each questions or question/choice duet to use in the Google Docs template
+      </li>
+      <li>Once this table is displayed, you can place your label in the Google Docs template&nbsp;</li>
+    </ol>
+    <p>&nbsp;</p>
+    <h2><strong>Example</strong>&nbsp;</h2>
+    <p>-------------------------------</p>
+    <p><em>Matching table</em></p>
+    <table style="height: 126px; border-style: solid; width: 603px; margin-left: auto; margin-right: auto;" border="1"
+      width="603">
+      <tbody>
+        <tr style="height: 21px;">
+          <th >Question</th>
+          <th >Type</th>
+          <th >Choix</th>
+          <th >Label</th>
+        </tr>
+        <tr style="height: 21px;">
+          <td >What's your prefered app ?</td>
+          <td >MULTIPLE_CHOICE</td>
+          <td >Sheets</td>
+          <td >A1</td>
+        </tr>
+        <tr style="height: 21px;">
+          <td >What's your prefered app ?</td>
+          <td >MULTIPLE_CHOICE</td>
+          <td >Gmail</td>
+          <td >A2</td>
+        </tr>
+        <tr style="height: 21px;">
+          <td >What's your prefered app ?</td>
+          <td >MULTIPLE_CHOICE</td>
+          <td >Docs</td>
+          <td >A3</td>
+        </tr>
+        <tr style="height: 21px;">
+          <td >What's your name ?</td>
+          <td >TEXT</td>
+          <td >&nbsp;</td>
+          <td >B</td>
+        </tr>
+        <tr style="height: 21px;">
+          <td >What's your color ?</td>
+          <td >LIST</td>
+          <td >&nbsp;</td>
+          <td >C</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>For each question or question/choice duet (for the Multiple choice type) , we have a label to place in the Google
+      Forms</p>
+    <p>-------------------------------</p>
+    <p><em>Google Docs Template</em></p>
+    <table style="height: 169px; width: 63.901%; border-collapse: collapse; margin-left: auto; margin-right: auto;"
+      border="1">
+      <tbody>
+        <tr>
+          <td style="width: 100%;">
+            <p style="text-align: center;">I'm {B}</p>
+            <p style="text-align: center;">I like the color {C}</p>
+            <p style="text-align: center;">I</p>
+            <p style="text-align: center;">{A1} like organized things {A1}</p>
+            <p style="text-align: center;">{A2} send emails {A2}</p>
+            <p style="text-align: center;">{A3} write documents {A3}</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>-------------------------------</p>
+    <p><em>Forms submission&nbsp;</em></p>
+    <p>When the user submits the Forms, a template copy is created. Then the copy is updated.&nbsp;</p>
+    <p>In the example if the user chose : Sheets, Julia, Blue ; the template will be&nbsp;</p>
+    <p>&nbsp;</p>
+    <table style="height: 169px; width: 63.901%; border-collapse: collapse; margin-left: auto; margin-right: auto;"
+      border="1">
+      <tbody>
+        <tr>
+          <td style="width: 100%;">
+            <p style="text-align: center;">I'm Julia</p>
+            <p style="text-align: center;">I like the color blue</p>
+            <p style="text-align: center;">I</p>
+            <p style="text-align: center;">like organized things</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>&nbsp;</p>
+  </body>
+
+</html>
