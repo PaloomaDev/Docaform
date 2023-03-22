@@ -11,7 +11,7 @@ function onOpen(e) {
       .createAddonMenu()
       .addItem('Google Docs Template', 'displayDrivePicker')
       .addItem('Matching table', 'afficherTableCorrespondance')
-      .addItem('Insctruction', 'displayHelp')
+      .addItem('Instructions', 'displayHelp')
       .addToUi();
   } catch (e) {
     // TODO (Developer) - Handle exception
@@ -133,8 +133,8 @@ function updateDocWithAnswers() {
     // Main trigger logic here.
     //FormApp.getActiveForm().setAcceptingResponses(false)
 
-     let dateEvent = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'dd/MM/YYYY')
-    let docId = createDoc("[" + dateEvent + "]-" + "test")
+    let dateEvent = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'dd/MM/YYYY')
+    let docId = createDoc("[" + dateEvent + "]-" + DriveApp.getFileById(PropertiesService.getDocumentProperties().getProperty("docId")).getName())
     getCorrespondanceTable().forEach(function (t) {
       let answer = getAnswerFromQuestion(t[0])
       if (answer != "") {
@@ -227,11 +227,7 @@ function removeBetweenSameElement(elementTag, docId) {
       currentElement = startElem.getParent().getNextSibling()
 
     }
-    //Label delete
-    // while(body.findText(elementTag)!=null){
-    //   body.findText(elementTag).getElement().removeFromParent()
 
-    // }
   }
   cleanLabels(elementTag, docId)
 
@@ -242,13 +238,26 @@ function cleanLabels(elementTag, docId) {
   let body = DocumentApp.openById(docId).getBody()
 
   let n = body.getNumChildren();
-  for (let i = n - 1; i >= 0; i--) {
-    let child = body.getChild(i);
-    if (child.asText().findText(elementTag)) {
-      child.removeFromParent();
-      //--n;
+  for (let i = n; i >= 0; i--) {
+    try {
+      let child = body.getChild(i);
+      if (child.asText().findText(elementTag)) {
+        try {
+          child.removeFromParent();
+        }
+        catch (e) {
+          Logger.log(n)
+          Logger.log(e)
+        }
+        //--n;
+      }
+    }
+    catch (e) {
+      Logger.log(e)
     }
   }
+  //Clean the last element 
+  body.replaceText(elementTag, "")
 }
 
 
@@ -383,9 +392,9 @@ function afficherTableCorrespondance() {
  * @return {}  
 **/
 function displayDrivePicker() {
-  
+
   FormApp.getUi().showModelessDialog(HtmlService.createHtmlOutputFromFile("drivePicker"), 'Google Docs Template')
-  
+
 }
 
 
